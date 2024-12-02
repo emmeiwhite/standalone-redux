@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node --watch script.js"
+    "start": "node --watch multiple-reducers.js"
   },
   "keywords": [],
   "author": "",

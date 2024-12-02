@@ -13,6 +13,11 @@
 2) Chef is a reducer which checks what to update in the Kitchen
 3) Kitchen and items in the kitchen can be considered as a state ! 
 */
+
+const redux = require('redux')
+
+const createStore = redux.createStore // this is deprecated but fine for learning purpose
+
 // o) Let's create few actions
 const ADD_ITEM = 'ADD_ITEM'
 // a) let's create our initialState which we'll add to the store
@@ -30,3 +35,18 @@ const reducer = (state = initialState, action) => {
 }
 
 // c) time to create store
+
+const store = createStore(reducer)
+
+console.log('Initial State :', store.getState())
+
+// d) let's subscribe to the store | register listener via subscribe
+store.subscribe(() => {
+  console.log('Current State :', store.getState())
+})
+
+// let's dispatch action to the reducer for it to update the state
+store.dispatch({ type: ADD_ITEM })
+store.dispatch({ type: ADD_ITEM })
+store.dispatch({ type: ADD_ITEM })
+store.dispatch({ type: ADD_ITEM })
