@@ -57,11 +57,18 @@ const store = createStore(reducer)
 console.log('Initial State :', store.getState())
 
 // 3. Register listener via subscribe(listener)
-store.subscribe(() => {
+const unsbscribe = store.subscribe(() => {
   console.log('Updated State :', store.getState())
 })
 
 // 4. Let's dispatch actions
 store.dispatch(orderPizza())
 store.dispatch(updateToppings('Chillies'))
+store.dispatch(orderPizza())
+
+// 5. unsubscribe
+unsbscribe()
+
+// After unsubscribe the App is no longer connected to the store! So the below lines have no meaning, nothing is subscribed
+store.dispatch(orderPizza())
 store.dispatch(orderPizza())
