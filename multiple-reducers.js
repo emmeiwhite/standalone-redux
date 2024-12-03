@@ -1,52 +1,45 @@
-/** Let's think & without listening try to retrieve from the brain what we learned! */
-
-// 1. Store: A single source of truth, a container which contains all our application state
-
-// 2. Actions: An object to tell the reducer what to update in the application state
-
-// 3. Reducers: A pure function which takes state & action and updates the global state
-
-// 4. Dispatcher: A dispatch() function is used to dispatch the actions
-
-/* Pizza shop Analogy:
-1) Customer ordered a Pizza(receipt is the action that  goes to the chef)
-2) Chef is a reducer which checks what to update in the Kitchen
-3) Kitchen and items in the kitchen can be considered as a state ! 
-*/
-
 const redux = require('redux')
 
-const createStore = redux.createStore // this is deprecated but fine for learning purpose
+const createStore = redux.createStore
 
-// o) Let's create few actions
-const ADD_ITEM = 'ADD_ITEM'
-// a) let's create our initialState which we'll add to the store
+const ORDER_PIZZA = 'ORDER_PIZZA'
+const ORDER_BURGER = 'ORDER_BURGER'
+
 const initialState = {
-  pizzaBase: 200
+  pizzaBase: 100,
+  burgerBase: 200
 }
 
-// b) let's create the reducer function
+// Action Creators
+function orderPizza() {
+  return { type: ORDER_PIZZA }
+}
+
+function orderBurger() {
+  return { type: ORDER_BURGER }
+}
 
 const reducer = (state = initialState, action) => {
-  if (action.type === ADD_ITEM) {
+  if (action.type === ORDER_PIZZA) {
     return { ...state, pizzaBase: state.pizzaBase - 1 }
+  }
+  if (action.type === ORDER_BURGER) {
+    return { ...state, burgerBase: state.burgerBase - 1 }
   }
   return state
 }
-
-// c) time to create store
 
 const store = createStore(reducer)
 
 console.log('Initial State :', store.getState())
 
-// d) let's subscribe to the store | register listener via subscribe
 store.subscribe(() => {
   console.log('Current State :', store.getState())
 })
 
-// let's dispatch action to the reducer for it to update the state
-store.dispatch({ type: ADD_ITEM })
-store.dispatch({ type: ADD_ITEM })
-store.dispatch({ type: ADD_ITEM })
-store.dispatch({ type: ADD_ITEM })
+store.dispatch(orderPizza())
+store.dispatch(orderPizza())
+store.dispatch(orderPizza())
+store.dispatch(orderBurger())
+store.dispatch(orderBurger())
+store.dispatch(orderBurger())
