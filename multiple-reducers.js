@@ -1,6 +1,7 @@
 const redux = require('redux')
 
 const createStore = redux.createStore
+const combineReducers = redux.combineReducers
 
 const ORDER_PIZZA = 'ORDER_PIZZA'
 const ORDER_BURGER = 'ORDER_BURGER'
@@ -24,27 +25,29 @@ function orderBurger() {
 }
 
 /* --- Let's create individual reducer for each feature --- */
-const pizzaReducer = (state = initialState, action) => {
+const pizzaReducer = (state = pizzaState, action) => {
   if (action.type === ORDER_PIZZA) {
     return { ...state, pizzaBase: state.pizzaBase - 1 }
   }
-  if (action.type === ORDER_BURGER) {
-    return { ...state, burgerBun: state.burgerBun - 1 }
-  }
+
   return state
 }
 
-const burgerReducer = (state = initialState, action) => {
+const burgerReducer = (state = burgerState, action) => {
   if (action.type === ORDER_PIZZA) {
-    return { ...state, pizzaBase: state.pizzaBase - 1 }
-  }
-  if (action.type === ORDER_BURGER) {
     return { ...state, burgerBun: state.burgerBun - 1 }
   }
+
   return state
 }
 
-const store = createStore(reducer)
+/** --- Creating our ROOT Reducer --- */
+const rootReducer = combineReducers({
+  pizza: pizzaReducer,
+  burger: burgerReducer
+})
+
+const store = createStore(rootReducer)
 
 console.log('Initial State :', store.getState())
 
