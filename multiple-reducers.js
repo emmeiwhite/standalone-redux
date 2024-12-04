@@ -3,6 +3,12 @@ const redux = require('redux')
 const createStore = redux.createStore
 const combineReducers = redux.combineReducers
 
+// Middleware in action
+const reduxLogger = require('redux-logger')
+const logger = reduxLogger.createLogger()
+
+const applyMiddleware = redux.applyMiddleware
+
 const ORDER_PIZZA = 'ORDER_PIZZA'
 const ORDER_BURGER = 'ORDER_BURGER'
 
@@ -47,17 +53,14 @@ const rootReducer = combineReducers({
   burger: burgerReducer
 })
 
-const store = createStore(rootReducer)
+const store = createStore(rootReducer, applyMiddleware(logger))
 
 console.log('Initial State :', store.getState())
 
 store.subscribe(() => {
-  console.log('Current State :', store.getState())
+  // console.log('Current State :', store.getState())
+  /** No need to use our own custom log, since logger takes care of it!
+   */
 })
 
 store.dispatch(orderPizza())
-store.dispatch(orderPizza())
-store.dispatch(orderPizza())
-store.dispatch(orderBurger())
-store.dispatch(orderBurger())
-store.dispatch(orderBurger())
