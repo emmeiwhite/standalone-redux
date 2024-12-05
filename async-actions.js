@@ -2,6 +2,9 @@
 const redux = require('redux')
 const createStore = redux.createStore
 
+const applyMiddleware = redux.applyMiddleware
+const { thunk } = require('redux-thunk')
+
 // Step-1: Let's define our State
 
 let initialState = {
@@ -64,4 +67,4 @@ function reducer(state = initialState, action) {
 }
 
 // Creating Store
-const store = createStore(reducer)
+const store = createStore(reducer, applyMiddleware(thunk))
