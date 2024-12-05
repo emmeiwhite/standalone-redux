@@ -1,4 +1,6 @@
 /** --- GOAL: To make an API call via middleware --- */
+const redux = require('redux')
+const createStore = redux.createStore
 
 // Step-1: Let's define our State
 
@@ -21,9 +23,10 @@ function fetchRequest() {
   }
 }
 
-function fetchSuccess() {
+function fetchSuccess(products) {
   return {
-    type: FETCH_SUCCESS
+    type: FETCH_SUCCESS,
+    payload: products
   }
 }
 
@@ -34,16 +37,31 @@ function fetchError() {
 }
 
 // 4. Reducer
-
 function reducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_REQUEST:
-      return {}
-    case FETCH_ERROR:
-      return {}
+      return {
+        ...state,
+        loading: true
+      }
+
     case FETCH_SUCCESS:
-      return {}
+      return {
+        ...state,
+        products: action.payload,
+        loading: false
+      }
+
+    case FETCH_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: true
+      }
     default:
       return state
   }
 }
+
+// Creating Store
+const store = createStore(reducer)
