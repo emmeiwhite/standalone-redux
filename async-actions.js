@@ -1,6 +1,7 @@
 /** --- GOAL: To make an API call via middleware --- */
 const redux = require('redux')
 const createStore = redux.createStore
+const axios = require('axios')
 
 const applyMiddleware = redux.applyMiddleware
 const { thunk } = require('redux-thunk')
@@ -66,5 +67,32 @@ function reducer(state = initialState, action) {
   }
 }
 
+// Thunk Action Creator: Returns a non-pure function which can dispatch actions and perform side-effects
+
+const url = 'https://fakestoreapi.com/products'
+
+function fetchProducts() {
+  return async function (dispatch) {
+    dispatch(fetchRequest())
+    try {
+      const products = await axios.get(url)
+
+      const titles = products.data.map(product => product.title)
+
+      // So here we pass the products from there to the reducer
+      dispatch(fetchSuccess(titles))
+    } catch (error) {
+      dispatch(fetchError())
+    }
+  }
+}
 // Creating Store
 const store = createStore(reducer, applyMiddleware(thunk))
+
+// Let's subscribe to the store
+store.subscribe(() => {
+  console.log('STATE:', store.getState())
+})
+
+// Let's dispatch actions with thunk middleware action creator
+store.dispatch(fetchProducts())
