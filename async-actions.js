@@ -69,7 +69,7 @@ function reducer(state = initialState, action) {
 
 // Thunk Action Creator: Returns a non-pure function which can dispatch actions and perform side-effects
 
-const url = 'https://fakestoreapi.com/products'
+const url = 'https://fakestoreapi.com/products3345345'
 
 function fetchProducts() {
   return async function (dispatch) {
